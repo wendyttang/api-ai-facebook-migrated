@@ -53,8 +53,7 @@ def fetchRecommendations(g):
             fetched_cids = fclsdict[cls]['cids']
             got_cid = sample(fetched_cids, 1)[0]
             recommend_cids.append(got_cid)
-        chosen = recommend_cids[0]
-        s = 'www.wish.com/c/%s' % chosen
+        s = ','.join(['https://www.wish.com/c/%s' % c for c in recommend_cids])
         return {
             "speech": s,
             "displayText": s,
