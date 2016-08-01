@@ -53,9 +53,10 @@ def fetchRecommendations(g):
             fetched_cids = fclsdict[cls]['cids']
             got_cid = sample(fetched_cids, 1)[0]
             recommend_cids.append(got_cid)
+        s = '   '.join(['http://contestimg.wish.com/api/image/fetch?contest_id=%s' % cid for cid in recommend_cids])
         return {
-            "speech": ','.join(recommend_cids),
-            "displayText": ','.join(recommend_cids),
+            "speech": s,
+            "displayText": s,
             # "data": data,
             # "contextOut": [],
             "source": "api-ai-facebook-migrated"
