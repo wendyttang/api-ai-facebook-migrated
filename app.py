@@ -27,19 +27,41 @@ def webhook():
 
 
 def processRequest(req):
-    if req.get("result").get("action") != "yahooWeatherForecast":
-        return {}
-    baseurl = "https://query.yahooapis.com/v1/public/yql?"
-    yql_query = makeYqlQuery(req)
-    if yql_query is None:
-        return {}
-    yql_url = baseurl + urllib.urlencode({'q': yql_query}) + "&format=json"
-    result = urllib.urlopen(yql_url).read()
-    data = json.loads(result)
-    res = makeWebhookResult(data)
+    func = req.get("result").get("action")
+    if func == "yahooWeatherForecast":
+        baseurl = "https://query.yahooapis.com/v1/public/yql?"
+        yql_query = makeYqlQuery(req)
+        if yql_query is None:
+            return {}
+        yql_url = baseurl + urllib.urlencode({'q': yql_query}) + "&format=json"
+        result = urllib.urlopen(yql_url).read()
+        data = json.loads(result)
+        res = makeWebhookResult(data)
+    elif func == "fetchRecommendations":
+        res = fetchRecommendations(2)
     return res
 
 
+def fetchRecommendations(g):
+    # only females for now
+    if True:
+        from female_clusters import fclsdict
+        selected_cls = sample(fclsdict.keys(), 4)
+        recommend_cids = []
+        for cls in selected_cls:
+            fetched_cids = fclsdict[cls]['cids']
+            got_cid = sample(fetched_cids, 1)[0]
+            recommend_cids.append(got_cid)
+        return {
+            "speech": ','.join(recommend_cids),
+            "displayText": ','.join(recommend_cids),
+            # "data": data,
+            # "contextOut": [],
+            "source": "api-ai-facebook-migrated"
+        }
+
+
+# function from yahooWeatherForecast example
 def makeYqlQuery(req):
     result = req.get("result")
     parameters = result.get("parameters")
@@ -50,6 +72,7 @@ def makeYqlQuery(req):
     return "select * from weather.forecast where woeid in (select woeid from geo.places(1) where text='" + city + "')"
 
 
+# function from yahooWeatherForecast example
 def makeWebhookResult(data):
     query = data.get('query')
     if query is None:
