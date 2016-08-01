@@ -5,6 +5,7 @@ import os
 from flask import Flask
 from flask import request
 from flask import make_response
+from random import sample
 
 # Flask app should start in global layout
 app = Flask(__name__)
