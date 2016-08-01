@@ -53,8 +53,8 @@ def fetchRecommendations(g):
             fetched_cids = fclsdict[cls]['cids']
             got_cid = sample(fetched_cids, 1)[0]
             recommend_cids.append(got_cid)
-        recommend_cids = recommend_cids[0]
-        s = '   '.join(['http://contestimg.wish.com/api/image/fetch?contest_id=%s' % cid for cid in recommend_cids])
+        chosen = recommend_cids[0]
+        s = 'www.wish.com/c/%s' % chosen
         return {
             "speech": s,
             "displayText": s,
