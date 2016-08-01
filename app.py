@@ -86,7 +86,7 @@ def makeWebhookResult(data):
         "displayText": speech,
         # "data": data,
         # "contextOut": [],
-        "source": "api-ai-facebook"
+        "source": "api-ai-facebook-migrated"
     }
 
 
